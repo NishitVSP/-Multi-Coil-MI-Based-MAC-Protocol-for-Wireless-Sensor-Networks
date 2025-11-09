@@ -1,3 +1,15 @@
+## PROJECT MEMBERS:
+
+MEMBER 1: Nishit Prajapati (202351106)
+
+MEMBER 2: Samarth Acharya (202351125)
+
+MEMBER 3: Pravit Soni (202351112)
+
+MEMBER 4: Sivajeet sabdakar (202351134)
+
+MEMBER 5: Rajat dhoot (202352325)
+
 # Multi-Coil MI MAC Protocol Simulation in NS-3
 
 ## Overview
