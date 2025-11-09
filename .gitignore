@@ -1,0 +1,54 @@
+# NS-3 Build Files
+build/
+cmake-cache/
+.lock-waf*
+.waf-*
+.waf3-*
+
+# Compiled files
+*.o
+*.pyc
+__pycache__/
+*.so
+*.a
+
+# Build output
+/build/
+/cmake-cache/
+
+# Test results
+testpy-output/
+*.pcap
+*.tr
+
+# Documentation build
+doc/html/
+doc/manual/build/
+doc/tutorial/build/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Exclude everything except our custom files
+/*
+!/scratch/
+!/results/
+!/.gitignore
+!/README.md
+
+# In scratch, only keep our files
+scratch/*
+!scratch/mi-mac-demo.cc
+!scratch/mi-mac-comparison.cc
+
+# Keep results
+results/*
+!results/*.log

@@ -1,0 +1,106 @@
+============================================================
+   MULTI-COIL MI MAC PROTOCOL SIMULATION
+============================================================
+
+>>> SOURCE NODE: Initiating Communication <<<
+
+Initial State: IDLE
+
+[Event] Sensor interrupt detected - Data ready to send
+[State Transition] IDLE -> DATA_ACQUIRE (Sensor interrupt)
+
+[Data Acquisition] Collecting sensor data...
+  Sensor reading: Temperature = 25.3°C
+[State Transition] DATA_ACQUIRE -> CHANNEL_SENSING (Data ready)
+
+[Channel Sensing] Checking if channel is available...
+  Channel Status: CLEAR
+[State Transition] CHANNEL_SENSING -> TRANSMIT (Channel clear)
+
+>>> Sending REV Packet (3 times, once per coil) <<<
+
+Transmission 1/3:
+
+[Packet Transmission]
+  Type: REV
+  From: Source -> To: Destination
+  Tx Coil: X
+  Structure: [Carrier|Preamble|TargetID|PacketID|TxCoilID|EOF] (13 bytes)
+
+Transmission 2/3:
+
+[Packet Transmission]
+  Type: REV
+  From: Source -> To: Destination
+  Tx Coil: Y
+  Structure: [Carrier|Preamble|TargetID|PacketID|TxCoilID|EOF] (13 bytes)
+
+Transmission 3/3:
+
+[Packet Transmission]
+  Type: REV
+  From: Source -> To: Destination
+  Tx Coil: Z
+  Structure: [Carrier|Preamble|TargetID|PacketID|TxCoilID|EOF] (13 bytes)
+[State Transition] TRANSMIT -> RECEIVE (Waiting for ACK)
+
+
+>>> DESTINATION NODE: Processing REV Packets <<<
+
+[Event] REV packets received on all 3 coils
+[State Transition] IDLE -> RECEIVE (Packet received with correct ID)
+
+=== Coil Selection Process ===
+  Coil X: RSSI = -45.5 dBm
+  Coil Y: RSSI = -52.3 dBm
+  Coil Z: RSSI = -48.7 dBm
+  Selected Coil: X (RSSI = -45.5 dBm)
+
+[Preparing ACK] Using best coil pair
+[State Transition] RECEIVE -> CHANNEL_SENSING (REV received, sending ACK)
+
+[Channel Sensing] Channel is clear
+[State Transition] CHANNEL_SENSING -> TRANSMIT (Channel clear)
+
+[Packet Transmission]
+  Type: ACK
+  From: Destination -> To: Source
+  Tx Coil: X
+  Structure: [Carrier|PacketID|TxCoilID|RxCoilID|EOF] (5 bytes)
+[State Transition] TRANSMIT -> RECEIVE (Waiting for data)
+
+
+>>> SOURCE NODE: ACK Received <<<
+
+[Event] ACK received with coil pair: X
+  Coil pair established for communication
+[State Transition] RECEIVE -> CHANNEL_SENSING (Ready to send data)
+
+[Channel Sensing] Channel is clear
+[State Transition] CHANNEL_SENSING -> TRANSMIT (Channel clear)
+
+[Packet Transmission]
+  Type: DATA
+  From: Source -> To: Destination
+  Tx Coil: X
+  Structure: [Carrier|PacketID|Data|EOF] (3-19 bytes)
+[State Transition] TRANSMIT -> IDLE (Transmission complete)
+
+
+>>> DESTINATION NODE: Data Received <<<
+
+[Event] Data packet received successfully
+  Data: Temperature = 25.3°C
+[State Transition] RECEIVE -> IDLE (Data received completely)
+
+============================================================
+   COMMUNICATION COMPLETE
+============================================================
+
+Summary:
+  - REV packets sent: 3 (one per coil)
+  - Best coil selected: X
+  - ACK packet sent: 1
+  - Data packet sent: 1
+  - Total state transitions: Multiple
+  - Protocol: REV -> ACK -> DATA successful
